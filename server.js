@@ -4,9 +4,12 @@ const authRoutes=require('./routes/authRoutes')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const DOTENV = require('dotenv')
+const path = require('path')
 
 
 const app= express()  //always use app in top for avoid .env issue
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors({
     origin: 'http://localhost:3000', // Allow only this origin
@@ -22,6 +25,12 @@ app.get('/',(req,res)=>{
     const data='hello world'
     res.json({message:'data',data})
 })
+app.get('/home',(req,res)=>{
+   res.sendFile(path.join(__dirname, 'public', 'home.html'))
+})
+
+
+
 mongoose.connect(MONGO_URI,{
     useNewUrlParser:true,
     useUnifiedTopology:true
