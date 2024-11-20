@@ -3,9 +3,11 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
+const DOTENV=require('dotenv')
 
+DOTENV.config()
 // Secret Key (use environment variables in production)
-const SECRET_KEY = '20754f6120f90e8dfcf3fdcff853359f0aa1ed390073a8344654234ad58d39fd'
+const SECRET_KEY = process.env.SECRET_KEY
 
 
 // Register User

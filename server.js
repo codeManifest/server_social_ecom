@@ -3,16 +3,20 @@ const bodyparser=require('body-parser')
 const authRoutes=require('./routes/authRoutes')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const DOTENV = require('dotenv')
 
 
-const MONGO_URI = 'mongodb+srv://nabins9678:UU5d4NCdpIQapyIs@education.naznvfp.mongodb.net/?retryWrites=true&w=majority&appName=education'
+const app= express()  //always use app in top for avoid .env issue
+
 app.use(cors({
     origin: 'http://localhost:3000', // Allow only this origin
     // methods: 'GET,POST,PUT,DELETE', 
     credentials: true // Allow cookies or credentials if needed
 }));
-const app= express()
-const PORT = 5000;
+DOTENV.config()
+const MONGO_URI = process.env.MONGO_URI
+const PORT=process.env.PORT || 6000
+
 
 app.get('/',(req,res)=>{
     const data='hello world'
