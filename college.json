@@ -1,0 +1,18 @@
+[
+    {
+        "college":"abc college",
+        "college_id":3453,
+        "estd" : 2005,
+        "address1": [{
+            "id":345301,
+            "city":"guwahati",
+            "District":"Kamrup metro"
+        }],
+        "address2": [{
+            "id":345302,
+            "city":"tezpur",
+            "District":"Sonitpur"
+        }]
+        
+    }
+]

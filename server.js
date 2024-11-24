@@ -1,48 +1,34 @@
-const express= require('express')
-const bodyparser=require('body-parser')
-const authRoutes=require('./routes/authRoutes')
-const mongoose = require('mongoose')
-const cors = require('cors')
-const DOTENV = require('dotenv')
-const path = require('path')
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const authRoutes = require('./routes/authRoutes');
 
+const app = express();
+const PORT = 5000;
 
-const app= express()  //always use app in top for avoid .env issue
+// MongoDB URI
+const MONGO_URI =
+  'mongodb+srv://nabins9678:UU5d4NCdpIQapyIs@education.naznvfp.mongodb.net/?retryWrites=true&w=majority&appName=education';
 
-app.use(express.static(path.join(__dirname, 'public')));
+// Connect to MongoDB
+mongoose
+  .connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => console.log('Error connecting to MongoDB:', err));
 
-app.use(cors({
-    origin: 'http://localhost:3000', // Allow only this origin
-    // methods: 'GET,POST,PUT,DELETE', 
-    credentials: true // Allow cookies or credentials if needed
-}));
-DOTENV.config()
-const MONGO_URI = process.env.MONGO_URI
-const PORT=process.env.PORT || 6000
+// Middleware
+app.use(bodyParser.json()); // Fix body-parser usage
 
+// Routes
+app.use('/api/auth', authRoutes);
 
-app.get('/',(req,res)=>{
-    const data='hello world'
-    res.json({message:'data',data})
-})
-app.get('/home',(req,res)=>{
-   res.sendFile(path.join(__dirname, 'public', 'home.html'))
-})
+// Base Route
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to the API', data: 'hello world' });
+});
 
-
-
-mongoose.connect(MONGO_URI,{
-    useNewUrlParser:true,
-    useUnifiedTopology:true
-})
-
-.then(()=> console.log('conected to mongodb'))
-.catch((err)=> console.log(err + 'something wrong in mongodb connection'))
-
-
-
-app.use(bodyparser.json)
-app.use('/api/auth', authRoutes )
-
-app.listen(PORT,()=>console.log('server is running on '+ PORT))
-
+// Start Server
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
